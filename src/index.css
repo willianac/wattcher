@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body > #root > div {
+  height: 100vh;
+}
+
+:root {
+  font-family: 'Noto Sans', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@layer components {
+  .button-special {
+    padding: 0.8em 2.8em;
+    border: 2px solid #000000;
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 16px;
+    transition: .3s;
+    z-index: 1;
+    font-family: inherit;
+    color: #000000;
+    border-radius: 8px;
+   }
+   
+   .button-special::before {
+    content: '';
+    width: 0;
+    height: 300%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: #000000;
+    transition: .5s ease;
+    display: block;
+    z-index: -1;
+   }
+   
+   .button-special:hover::before {
+    width: 105%;
+   }
+   
+   .button-special:hover {
+    color: #00DD00;
+   }
+}
