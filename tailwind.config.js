@@ -10,8 +10,8 @@ export default {
       colors : {
         colorPrimary : "#00DD00",
         grayPrimary : "#EEEEEE"
-      }
+      },
     },
   },
-  plugins: []
+  plugins: [],
 }

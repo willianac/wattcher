@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import DeviceForm from "../../components/DeviceForm";
+import IntroForm from "../../components/IntroductionForm";
 import Footer from "../../components/Footer";
 import AnimatedWrapper, { AnimateText } from "../../animations/AnimatedWrapper";
 import { Device } from "../../store/devices";
@@ -20,7 +20,7 @@ function LandingPage() {
                 <h1 className="pt-11 text-3xl font-bold text-center">Saiba quanto seus aparelhos gastam de energia todo mês</h1>
                 <p className="mt-7 w-3/4 px-4">Saiba rapidamente quanto gasta seu aparelho eletrônico:</p>
                 <main className="px-4 mt-4">
-                    <DeviceForm calc={calculateEnergy}/>
+                    <IntroForm calc={calculateEnergy}/>
                     {
                         energykWh &&
                             <AnimateText><h2 className="text-xl text-gray-800 font-semibold">Seu aparelho gasta {energykWh} kWh por mês</h2></AnimateText>

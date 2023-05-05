@@ -11,6 +11,11 @@ function Navbar() {
             <div>
                 <ul className="flex gap-4 pr-4">
                     <li>
+                        <Link to="/mydevices">
+                            <span className="font-semibold">Meu resumo</span>
+                        </Link>
+                    </li>
+                    <li>
                         <Link to="/home">
                             <span className="font-semibold">Home</span>
                         </Link>
