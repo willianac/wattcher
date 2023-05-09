@@ -12,7 +12,7 @@ function AnimatedWrapper({ children }: Props) {
             config : config.gentle
         }), []
     )
-    return <animated.main style={springs} className="h-full">{ children }</animated.main>
+    return <animated.main style={springs}>{ children }</animated.main>
 }
 
 export function AnimateText({ children }: Props) {

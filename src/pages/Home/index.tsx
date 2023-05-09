@@ -35,6 +35,7 @@ function Home() {
     }, [])
 
     const saveDevice = (device: Device) => {
+        console.log(device)
         addDevice(device)
     }
     
@@ -56,7 +57,7 @@ function Home() {
                 {devices.length ? 
                     <div className="grid grid-cols-3 gap-y-3 place-items-center">
                         {Object.keys(roomCounts).map((room, index) => (
-                            <DeviceIcon icon_name={room} quantity={roomCounts[room]} key={index}/>
+                            <DeviceIcon room_name={room} quantity={roomCounts[room]} key={index}/>
                         ))}
                     </div> :
                     <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span>Você ainda não tem nenhum equipamento</span>}/>
