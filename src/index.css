@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body > #root > div {
-  height: 100vh;
-}
-
 :root {
   font-family: 'Noto Sans', sans-serif;
   font-synthesis: none;
@@ -19,6 +15,14 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body > #root {
+  height: 100vh;
+}
+
+.pages {
+  min-height: calc(100% - 60px);
 }
 
 @layer components {

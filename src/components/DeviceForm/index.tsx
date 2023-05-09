@@ -4,7 +4,7 @@ import { Device } from "../../store/devices"
 
 const OPTIONS = {
     autocompleteOptions : [{value: "geladeira"}, {value : "máquina de lavar"}, {value : "lava-louças"}, {value : "computador"}, {value : "televisão"}, {value : "monitor"}, {value : "lâmpada"}, {value : "ventilador"}, {value : "ar-condicionado"}, {value : "chuveiro elétrico"}],
-    selectOptions : [{value : "living_room", label : "Sala"}, {value: "bathroom", label: "Banheiro"}, {value: "kitchen", label: "Cozinha"}, {value: "bedroom", label: "Quarto"}, {value: "office", label: "Escritório"}, {value: "backyard", label: "Quintal"}, {value: "terrace", label: "Terraço/Varanda"}, {value : "garage", label : "Garagem"}, {value: "others", label: "Outros"}]
+    selectOptions : [{value : "Sala", label : "Sala"}, {value: "Banheiro", label: "Banheiro"}, {value: "Cozinha", label: "Cozinha"}, {value: "Quarto", label: "Quarto"}, {value: "Escritório", label: "Escritório"}, {value: "Quintal", label: "Quintal"}, {value: "Terraço/Varanda", label: "Terraço/Varanda"}, {value : "Garagem", label : "Garagem"}, {value: "Outros", label: "Outros"}]
 }
 
 type DeviceFormActions = {
@@ -14,18 +14,25 @@ type DeviceFormActions = {
 
 function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
     const [options, setOptions] = useState(OPTIONS.autocompleteOptions)
+    const [QuantityInput, setQuantityInput] = useState(false)
 
     const handleChange = (text: string) => {
+        if(text === "lâmpada") {showQuantityInput()}
         let filteredOptions = OPTIONS.autocompleteOptions.filter((val) => val.value.startsWith(text))
         if(!text.trim()) {return setOptions(OPTIONS.autocompleteOptions)}
         setOptions(filteredOptions)
     } 
+
+    const showQuantityInput = () => {
+        setQuantityInput(true)
+    }
 
     return (
         <Form
             onFinish={saveDevice}
             onFinishFailed={throwToastError}
             className="mt-4"
+           
         >
             <p>Nome</p>
             <Form.Item name="name" rules={[{required : true, message : "Escolha o nome do aparelho"}]}>
@@ -36,28 +43,32 @@ function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
                     />
             </Form.Item>
 
+            {QuantityInput &&   <Form.Item name="quantity">
+                                    <InputNumber className="w-full" placeholder="Quantidade"/>
+                                </Form.Item>}
+
             <p>Potência</p>
             <Form.Item name="power" rules={[{required : true, message : "Por favor insira a potência"}]}>
                 <InputNumber className="w-full"/>
             </Form.Item>
 
             <p>Uso diário (horas)</p>
-            <Form.Item name="daily_use">
-                <Slider min={1} max={24} />
+            <Form.Item name="daily_use" initialValue={1}>
+                <Slider min={1} max={24}/>
             </Form.Item>
 
             <p>Dias por mês</p>
-            <Form.Item name="month_use">
+            <Form.Item name="month_use" initialValue={1}>
                 <Slider min={1} max={31} />
             </Form.Item>
 
             <p>Onde esse objeto fica?</p>
-            <Form.Item name="room" >
+            <Form.Item name="room" rules={[{required : true, message : "Por favor selecione o local"}]}>
                 <Select options={OPTIONS.selectOptions}/>
             </Form.Item>
 
             <Form.Item>
-                <Button htmlType="submit" type="primary" size="large" className="bg-colorPrimary w-full" >Adicionar</Button>
+                <Button htmlType="submit" type="primary" size="large" className="bg-colorPrimary w-full">Adicionar</Button>
             </Form.Item>
 
         </Form>

@@ -2,42 +2,40 @@ import { Badge } from "antd"
 import "./styles.css"
 
 type DeviceIconProps = {
-    icon_name: string
+    room_name: string
     quantity?: number
 }
 
-function DeviceIcon ({ icon_name, quantity }: DeviceIconProps) {
+function DeviceIcon ({ room_name, quantity }: DeviceIconProps) {
     let ICON = ""
-    let ROOM = ""
 
-    switch (icon_name) {
-        case "living_room":
+    switch (room_name) {
+        case "Sala":
             ICON = "chair"
-            ROOM = "Sala"
             break;
-        case "bathroom":
+        case "Banheiro":
             ICON = "shower"
-            ROOM = "Banheiro"
             break;
-        case "bedroom":
+        case "Quarto":
             ICON = "single_bed"
-            ROOM = "Quarto"
             break;
-        case "office":
+        case "Escritório":
             ICON = "meeting_room"
-            ROOM = "Escritório"
             break;
-        case "backyard":
+        case "Quintal":
             ICON = "yard"
-            ROOM = "Quintal"
             break;
-        case "terrace":
+        case "Terraço/Varanda":
             ICON = "balcony"
-            ROOM = "Terraço/Varanda"
+            break;
+        case "Cozinha":
+            ICON = "kitchen"
+            break;
+        case "Garagem":
+            ICON = "warehouse"
             break;
         default:
             ICON = "home"
-            ROOM = "Outros"
             break;
     }
 
@@ -47,7 +45,7 @@ function DeviceIcon ({ icon_name, quantity }: DeviceIconProps) {
                 <div className="w-16 h-16 rounded-lg border-2 border-colorPrimary flex items-center justify-center">
                     <span className="material-symbols-rounded text-colorPrimary">{ICON}</span>
                 </div>
-                <span className="text-sm text-colorPrimary tracking-tight font-semibold">{ROOM}</span> 
+                <span className="text-sm text-colorPrimary tracking-tight font-semibold">{room_name}</span> 
             </Badge>
         </>
     )
