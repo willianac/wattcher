@@ -1,10 +1,14 @@
 import { Card, Col, Row, Statistic } from 'antd';
+import { useUserStore } from '../../store/user';
 
 type CardProps = {
     consumption: number
 }
 
 function ConsumptionCard({ consumption }: CardProps ) {
+    const { kWhValue } = useUserStore()
+    const totalValue = consumption * (kWhValue ? kWhValue : 0)
+
     return (
         <Row gutter={16} className='p-4 bg-grayPrimary'>
             <Col span={12}>
@@ -20,7 +24,7 @@ function ConsumptionCard({ consumption }: CardProps ) {
                 <Card bordered={false}>
                 <Statistic
                     title="Valor aproximado (R$)"
-                    value={9.3}
+                    value={totalValue}
                     precision={2}
                 />
                 </Card>

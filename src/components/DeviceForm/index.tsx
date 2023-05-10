@@ -1,5 +1,5 @@
 import { Form, InputNumber, Slider, Select, Button, AutoComplete } from "antd"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Device } from "../../store/devices"
 
 const OPTIONS = {
@@ -14,17 +14,19 @@ type DeviceFormActions = {
 
 function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
     const [options, setOptions] = useState(OPTIONS.autocompleteOptions)
-    const [QuantityInput, setQuantityInput] = useState(false)
+    const [amountInput, setAmountInput] = useState(false)
 
-    const handleChange = (text: string) => {
-        if(text === "lâmpada") {showQuantityInput()}
-        let filteredOptions = OPTIONS.autocompleteOptions.filter((val) => val.value.startsWith(text))
+    const handleAutocompleteChange = (text: string) => {
+        handleAmountInput(text)
         if(!text.trim()) {return setOptions(OPTIONS.autocompleteOptions)}
+        let filteredOptions = OPTIONS.autocompleteOptions.filter((val) => val.value.startsWith(text))
         setOptions(filteredOptions)
     } 
 
-    const showQuantityInput = () => {
-        setQuantityInput(true)
+    const handleAmountInput = (text: string) => {
+        if(text === "lâmpada") return setAmountInput(true)
+        if(text !== "lâmpada" && !amountInput) {return}
+        setAmountInput(false)
     }
 
     return (
@@ -37,15 +39,15 @@ function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
             <p>Nome</p>
             <Form.Item name="name" rules={[{required : true, message : "Escolha o nome do aparelho"}]}>
                 <AutoComplete
-                    onChange={handleChange}
+                    onChange={handleAutocompleteChange}
                     className="w-full" 
                     options={options}
                     />
             </Form.Item>
 
-            {QuantityInput &&   <Form.Item name="quantity">
-                                    <InputNumber className="w-full" placeholder="Quantidade"/>
-                                </Form.Item>}
+            {amountInput && <Form.Item name="amount">
+                                <InputNumber className="w-full" placeholder="Quantidade"/>
+                            </Form.Item>}
 
             <p>Potência</p>
             <Form.Item name="power" rules={[{required : true, message : "Por favor insira a potência"}]}>

@@ -15,21 +15,24 @@ function DeviceList({ devices, room }: DeviceListProps) {
     }
 
     return (
-        <AnimatedList>
-            {listOfRoomDevices.map((device, index) => (
-                <Descriptions 
-                    title={device.name} 
-                    key={index} 
-                    className="capitalize mb-12 bg-grayPrimary rounded-lg p-3" 
-                    size="small" 
-                    extra={<Button onClick={() => getValue(device)} type="primary">Editar</Button>}
-                >
-                    <Descriptions.Item label="Potência">{device.power + "W"}</Descriptions.Item>
-                    <Descriptions.Item label="Uso diário">{device.daily_use + "h"}</Descriptions.Item>
-                    <Descriptions.Item label="Uso mensalmente">{device.month_use + " dias"}</Descriptions.Item>
-                </Descriptions>
-            ))}
-        </AnimatedList>
+        <>
+            <h3>{room} gasta 2kWh</h3>
+            <AnimatedList>
+                {listOfRoomDevices.map((device, index) => (
+                    <Descriptions 
+                        title={device.name} 
+                        key={index} 
+                        className="capitalize mb-6 bg-grayPrimary rounded-lg p-3" 
+                        size="small" 
+                        extra={<Button onClick={() => getValue(device)} type="primary">Editar</Button>}
+                    >
+                        <Descriptions.Item label="Potência">{device.power + "W"}</Descriptions.Item>
+                        <Descriptions.Item label="Uso diário">{device.daily_use + "h"}</Descriptions.Item>
+                        <Descriptions.Item label="Uso mensalmente">{device.month_use + " dias"}</Descriptions.Item>
+                    </Descriptions>
+                ))}
+            </AnimatedList>
+        </>
     )
 }
 

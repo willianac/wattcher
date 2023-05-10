@@ -47,7 +47,7 @@ function Home() {
     }
 
     return (
-        <div className="mt-12 px-4">
+        <div className="mt-12 px-4 lg:mx-72">
             {contextHolder}
             <Modal title="Quanto custa o kWh na sua cidade?" open={isModalOpen} onOk={handleModal} onCancel={handleModalCancel}>
                 <p>Antes de adicionar os aparelhos, primeiro precisamos saber quanto custa o valor do kWh na sua cidade</p>
@@ -55,7 +55,7 @@ function Home() {
             </Modal>
             <AnimatedWrapper>
                 {devices.length ? 
-                    <div className="grid grid-cols-3 gap-y-3 place-items-center">
+                    <div className="grid grid-cols-3 gap-y-3 place-items-center lg:grid-cols-6">
                         {Object.keys(roomCounts).map((room, index) => (
                             <DeviceIcon room_name={room} quantity={roomCounts[room]} key={index}/>
                         ))}

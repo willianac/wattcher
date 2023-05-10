@@ -10,7 +10,7 @@ function Navbar() {
 
     return (
         <>
-            <header className="flex flex-wrap justify-between bg-white w-full py-3 items-center">
+            <header className="flex flex-wrap justify-between bg-white w-full py-3 items-center lg:px-20">
                 <div>
                     <Link to="/">
                         <h1 className="text-3xl text-colorPrimary pl-4 font-semibold tracking-wide">Wattcher</h1>

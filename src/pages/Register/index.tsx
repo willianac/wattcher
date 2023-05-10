@@ -34,9 +34,9 @@ function Register() {
 
     return (
         <AnimatedWrapper>
-            <img src={animation} className="mx-auto w-64"/>
-            <h1 className="text-3xl font-semibold px-4">Crie sua conta</h1>
-            <form onSubmit={formik.handleSubmit} className="flex flex-col mt-4 px-4 gap-3">
+            <img src={animation} className="mx-auto w-64 lg:w-80"/>
+            <h1 className="text-3xl font-semibold px-4 lg:mx-72 lg:font-bold">Crie sua conta</h1>
+            <form onSubmit={formik.handleSubmit} className="flex flex-col mt-4 px-4 gap-3 lg:mx-72">
 
                 <div>
                     <p>Nome</p>
@@ -89,7 +89,7 @@ function Register() {
                     >Registrar
                 </Button>
             </form>
-            <p className="text-sm px-4 mt-3">
+            <p className="text-sm px-4 mt-3 lg:mx-72">
                 Já tem uma conta? <Link to="/login" className="text-blue-600 font-semibold">Entre</Link>
             </p>
         </AnimatedWrapper>

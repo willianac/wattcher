@@ -1,12 +1,13 @@
 import { create } from "zustand";
 
 export type Device = {
-    id? : number
+    id?: number
     power: number
     daily_use: number
     month_use: number
     name: string
     room: string
+    amount?: number
 }
 
 type ActionProps = {

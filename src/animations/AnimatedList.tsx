@@ -1,16 +1,20 @@
-import { animated, useSpring, config } from "@react-spring/web";
+import { animated, config, useTrail } from "@react-spring/web";
 
 type Props = {
-    children : React.ReactNode
+    children : React.ReactNode[]
 }
 
 export function AnimatedList({ children }: Props) {
-    const [springs, api] = useSpring(
-        () => ({
-            from : { opacity : 0 },
-            to : { opacity : 1 },
-            config : config.molasses
-        }), []
+    const trails = useTrail(children.length, {
+        from : {opacity : 0},
+        to : {opacity: 1},
+        config : config.stiff
+    })
+    return (
+        <div>
+            {trails.map((props, index) => (
+                <animated.div style={props}>{ children[index] }</animated.div>
+                ))}
+        </div>
     )
-    return <animated.div style={springs}>{ children }</animated.div>
 }
