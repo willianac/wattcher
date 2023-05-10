@@ -29,10 +29,10 @@ function Login() {
     return (
         <>
             <AnimatedWrapper>
-            <img src={animation} className="mx-auto w-64" />
-                <a href="https://storyset.com/nature" className="text-xs px-4 text-gray-300">Nature illustrations by Storyset</a>
-                <h1 className="text-3xl font-semibold px-4">Preencha todos os campos</h1>
-                <form className="mt-4 px-4 flex flex-col gap-3" onSubmit={formik.handleSubmit}>
+            <img src={animation} className="mx-auto w-64 lg:w-80" />
+                <a href="https://storyset.com/nature" className="text-xs px-4 text-gray-300 lg:mx-72">Nature illustrations by Storyset</a>
+                <h1 className="text-3xl font-semibold px-4 lg:mx-72">Preencha todos os campos</h1>
+                <form className="mt-4 px-4 flex flex-col gap-3 lg:mx-72" onSubmit={formik.handleSubmit}>
                     <div>
                         <p>Email</p>
                         <Input 
@@ -72,7 +72,7 @@ function Login() {
                         >Enviar
                     </Button>
                 </form>
-                <p className="px-4 text-sm mt-3">
+                <p className="px-4 text-sm mt-3 lg:mx-72">
                     Não tem uma conta? <Link to="/cadastrar" className="text-blue-600">Cadastre-se</Link> 
                 </p>
             </AnimatedWrapper>
