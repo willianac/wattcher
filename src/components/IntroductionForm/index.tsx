@@ -16,6 +16,7 @@ function IntroForm ({ calc }: any) {
     const getValues = () => {
         let values = form.getFieldsValue() as Device
         calc(values)
+        form.resetFields()
     }
 
     return (
