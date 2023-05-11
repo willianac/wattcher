@@ -1,5 +1,5 @@
 import { Form, InputNumber, Slider, Select, Button, AutoComplete } from "antd"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Device } from "../../store/devices"
 
 const OPTIONS = {
@@ -15,6 +15,7 @@ type DeviceFormActions = {
 function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
     const [options, setOptions] = useState(OPTIONS.autocompleteOptions)
     const [amountInput, setAmountInput] = useState(false)
+    const [form] = Form.useForm()
 
     const handleAutocompleteChange = (text: string) => {
         handleAmountInput(text)
@@ -29,12 +30,17 @@ function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
         setAmountInput(false)
     }
 
+    const handleSubmit = (device: Device) => {
+        saveDevice(device)
+        form.resetFields()
+    }
+
     return (
         <Form
-            onFinish={saveDevice}
+            onFinish={handleSubmit}
             onFinishFailed={throwToastError}
             className="mt-4"
-           
+            form={form}
         >
             <p>Nome</p>
             <Form.Item name="name" rules={[{required : true, message : "Escolha o nome do aparelho"}]}>

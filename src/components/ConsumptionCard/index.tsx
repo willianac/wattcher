@@ -1,13 +1,21 @@
 import { Card, Col, Row, Statistic } from 'antd';
+
 import { useUserStore } from '../../store/user';
+import { useDeviceStore } from '../../store/devices';
+import { useCalculateEnergy } from '../../hooks/useCalculateEnergy';
 
-type CardProps = {
-    consumption: number
-}
-
-function ConsumptionCard({ consumption }: CardProps ) {
+function ConsumptionCard() {
     const { kWhValue } = useUserStore()
-    const totalValue = consumption * (kWhValue ? kWhValue : 0)
+    const { devices } = useDeviceStore()
+    const { extras } = useUserStore()
+
+    const consumption = devices.reduce((acum, current) => {
+        let result = useCalculateEnergy(current)
+        return acum = acum + Number(result)
+        
+    }, 0)
+
+    const totalValue = consumption * (kWhValue ? kWhValue : 0) + extras
 
     return (
         <Row gutter={16} className='p-4 bg-grayPrimary'>
@@ -26,7 +34,7 @@ function ConsumptionCard({ consumption }: CardProps ) {
                     title="Valor aproximado (R$)"
                     value={totalValue}
                     precision={2}
-                />
+                />       
                 </Card>
             </Col>
         </Row>

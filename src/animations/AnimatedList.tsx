@@ -13,7 +13,7 @@ export function AnimatedList({ children }: Props) {
     return (
         <div>
             {trails.map((props, index) => (
-                <animated.div style={props}>{ children[index] }</animated.div>
+                <animated.div style={props} key={index}>{ children[index] }</animated.div>
                 ))}
         </div>
     )
