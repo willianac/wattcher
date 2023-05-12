@@ -36,8 +36,8 @@ function Register() {
         <AnimatedWrapper>
             <img src={animation} className="mx-auto w-64 lg:w-80"/>
             <h1 className="text-3xl font-semibold px-4 lg:mx-72 lg:font-bold">Crie sua conta</h1>
+            <p className="lg:mx-72 px-4 text-sm lg:text-base text-gray-600">Assim o aplicativo pode salvar suas informações, para que sempre que entrar no site, seus aparelhos sejam exibidos.</p>
             <form onSubmit={formik.handleSubmit} className="flex flex-col mt-4 px-4 gap-3 lg:mx-72">
-
                 <div>
                     <p>Nome</p>
                     <Input 
