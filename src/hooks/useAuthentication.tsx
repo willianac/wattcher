@@ -9,6 +9,12 @@ type LoginParams = {
   password: string
 }
 
+type RegisterParams = {
+  email: string
+  name: string
+  password: string
+}
+
 export function useAuthentication() {
   const { saveUser, setUserLogged } = useUserStore()
 
@@ -26,8 +32,18 @@ export function useAuthentication() {
     }
   }
 
-  function register() {
-    return "the register"
+  async function register({ name, email, password }: RegisterParams) {
+    try {
+      const user = await axios.post(URL + "/createuser", {name, email, password})
+      const userdata = user.data as UserData
+      saveUser({id : userdata.id, name : userdata.name})
+      setUserLogged(true)
+    } catch (error) {
+      if(error instanceof AxiosError) {
+        if(error.code == "ERR_NETWORK") return "network_error"
+        if(error.response?.data.message == "user already exists") return "already_exists"
+      }
+    }
   }
 
   return {
