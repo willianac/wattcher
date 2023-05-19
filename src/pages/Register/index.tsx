@@ -1,12 +1,26 @@
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import AnimatedWrapper from "../../animations/AnimatedWrapper";
 import animation from "../../assets/register_queue_animation.svg";
+import { useAuthentication } from "../../hooks/useAuthentication";
+import { useUserStore } from "../../store/user";
+import { useEffect } from "react";
 
 function Register() {
+    const { register } = useAuthentication()
+    const navigate = useNavigate()
+    const [messageApi, contextHolder] = message.useMessage()
+    
+    const { isUserLogged} = useUserStore()
+
+    useEffect(() => {
+       if(isUserLogged) {
+        navigate("/home")
+       } 
+    }, [])
 
     const formik = useFormik({
         validateOnMount : true,
@@ -26,14 +40,22 @@ function Register() {
                 .required("Senha deve ser preenchida")
                 .min(6, "A senha deve ter mais que 6 caracteres")
         }),
-        onSubmit : (values) => {
-            console.log(values)
+        onSubmit : async (values) => {
+            const response = await register(values)
+            if(response == "already_exists") {
+                return messageApi.error("Esse usuário já existe")
+            }
+            if(response == "network_error") {
+                return messageApi.error("Erro de servidor")
+            }
+            navigate("/home")
         },
         
     })
 
     return (
         <AnimatedWrapper>
+            {contextHolder}
             <img src={animation} className="mx-auto w-64 lg:w-80"/>
             <h1 className="text-3xl font-semibold px-4 lg:mx-72 lg:font-bold">Crie sua conta</h1>
             <p className="lg:mx-72 px-4 text-sm lg:text-base text-gray-600">Assim o aplicativo pode salvar suas informações, para que sempre que entrar no site, seus aparelhos sejam exibidos.</p>
