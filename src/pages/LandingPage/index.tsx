@@ -17,7 +17,7 @@ function LandingPage() {
     return (
         <AnimatedWrapper>
             <div className="flex flex-col h-full">
-                <h1 className="pt-11 text-3xl font-bold text-center">Saiba quanto seus aparelhos gastam de energia todo mês</h1>
+                <h1 className="pt-11 text-3xl font-bold text-center lg:text-4xl lg:font-light lg:tracking-tighter">Saiba quanto seus aparelhos gastam de energia todo mês</h1>
                 <p className="mt-7 w-3/4 px-4 lg:mx-72">Saiba rapidamente quanto gasta seu aparelho eletrônico:</p>
                 <main className="px-4 mt-4 lg:mx-72">
                     <IntroForm calc={calculateEnergy}/>

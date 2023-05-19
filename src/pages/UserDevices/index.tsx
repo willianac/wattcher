@@ -48,9 +48,9 @@ function UserDevices() {
         <div className="overflow-hidden lg:mx-72">
             <AnimatedWrapper>
                 <ConsumptionCard />
-                <div className="flex justify-between mt-2">
+                <div className="flex flex-wrap justify-between mt-2">
                     <Button type="link" onClick={() => setIsModalOpen(true)} icon={<PlusOutlined />} className="flex items-center">Adicionar impostos ou extras</Button>
-                    <Button type="default" onClick={() => setIsChangeBoxDisplayed(!isChangeBoxDisplayed)}>Editar valores</Button>
+                    <Button type="default" onClick={() => setIsChangeBoxDisplayed(!isChangeBoxDisplayed)} className="mr-4 lg:mr-0">Editar valores</Button>
                 </div>
                 {isChangeBoxDisplayed &&
                     <div className="flex justify-end mt-4">

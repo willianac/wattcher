@@ -33,6 +33,7 @@ function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
     const handleSubmit = (device: Device) => {
         saveDevice(device)
         form.resetFields()
+        setOptions(OPTIONS.autocompleteOptions)
     }
 
     return (

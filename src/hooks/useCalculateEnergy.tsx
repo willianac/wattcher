@@ -8,3 +8,11 @@ export function useCalculateEnergy(values: Device) {
     }
     return energySpentMonthlyInKWH.toFixed(2)
 }
+
+export function useCalculateRoomEnergy(devices: Device[]) {
+    return devices.reduce((acum, current) => {
+        let result = useCalculateEnergy(current);
+        return acum = acum + Number(result)
+    }, 0)
+
+}

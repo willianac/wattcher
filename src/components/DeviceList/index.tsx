@@ -1,6 +1,7 @@
 import { Device } from "../../store/devices";
 import { Descriptions, Button } from 'antd';
 import { AnimatedList } from "../../animations/AnimatedList";
+import { useCalculateRoomEnergy } from "../../hooks/useCalculateEnergy";
 
 type DeviceListProps = {
     devices : Device[]
@@ -10,6 +11,7 @@ type DeviceListProps = {
 
 function DeviceList({ devices, room, handleEditDevice }: DeviceListProps) {
     const listOfRoomDevices = devices.filter(device => device.room === room)
+    let roomConsumption = listOfRoomDevices ? useCalculateRoomEnergy(listOfRoomDevices) : 0
 
     const getDeviceValue = (device: Device) => {
         handleEditDevice(device)
@@ -18,7 +20,7 @@ function DeviceList({ devices, room, handleEditDevice }: DeviceListProps) {
 
     return (
         <>
-            <h3>{room} gasta 2kWh</h3>
+            <h3 className="text-base mb-1">{room} gasta no total {roomConsumption} kWh.</h3>
             <AnimatedList>
                 {listOfRoomDevices.map((device, index) => (
                     <Descriptions 
@@ -30,7 +32,7 @@ function DeviceList({ devices, room, handleEditDevice }: DeviceListProps) {
                     >
                         <Descriptions.Item label="Potência">{device.power + "W"}</Descriptions.Item>
                         <Descriptions.Item label="Uso diário">{device.daily_use + "h"}</Descriptions.Item>
-                        <Descriptions.Item label="Uso mensalmente">{device.month_use + " dias"}</Descriptions.Item>
+                        <Descriptions.Item label="Uso mensal">{device.month_use + " dias"}</Descriptions.Item>
                         {device.amount && 
                             <Descriptions.Item label="Quantidade">{device.amount}</Descriptions.Item>}
                     </Descriptions>
