@@ -32,7 +32,7 @@ function DeviceList({ devices, room, handleEditDevice }: DeviceListProps) {
                     >
                         <Descriptions.Item label="Potência">{device.power + "W"}</Descriptions.Item>
                         <Descriptions.Item label="Uso diário">{device.daily_use + "h"}</Descriptions.Item>
-                        <Descriptions.Item label="Uso mensalmente">{device.month_use + " dias"}</Descriptions.Item>
+                        <Descriptions.Item label="Uso mensal">{device.month_use + " dias"}</Descriptions.Item>
                         {device.amount && 
                             <Descriptions.Item label="Quantidade">{device.amount}</Descriptions.Item>}
                     </Descriptions>
