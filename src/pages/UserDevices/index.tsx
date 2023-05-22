@@ -1,14 +1,15 @@
 import { Tabs, TabsProps, Button, Modal, InputNumber } from "antd";
 import { PlusOutlined } from "@ant-design/icons"
+import { useState } from "react";
 
 import ConsumptionCard from '../../components/ConsumptionCard';
 import { Device, useDeviceStore } from "../../store/devices";
 import { useRoomCounter } from "../../hooks/useRoomCounter";
 import DeviceList from "../../components/DeviceList";
 import AnimatedWrapper from "../../animations/AnimatedWrapper";
-import { useState } from "react";
 import { useUserStore } from "../../store/user";
 import ModalEditDevice from "../../components/ModalEditDevice";
+import { useGetDevices } from "../../hooks/useGetDevices" 
 
 function UserDevices() {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -20,6 +21,7 @@ function UserDevices() {
     const { devices } = useDeviceStore()
     const { extras, changeExtraValues } = useUserStore()
     const roomCount = useRoomCounter(devices)
+    useGetDevices();
 
     const handleEditDevice = (device: Device) => {
         setEditDeviceOpen(!isEditDeviceOpen)
@@ -77,3 +79,12 @@ function UserDevices() {
 }
 
 export default UserDevices;
+
+
+// const getDevices = useGetDevices();
+    
+//     useEffect(() => {
+//         if(getDevices) {
+//             addDevices(getDevices)
+//         }
+//     }, [getDevices])
