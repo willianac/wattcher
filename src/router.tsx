@@ -30,7 +30,7 @@ const routes = createBrowserRouter([
             },
             {
                 path : "/mydevices",
-                element : <UserDevices />
+                element : <UserDevices />,
             }
         ]
     }

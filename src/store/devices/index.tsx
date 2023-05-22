@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { v4 as uuidv4 } from "uuid";
 
 export type Device = {
     id?: string
@@ -16,6 +15,7 @@ type ActionProps = {
     addDevice : (device: Device) => void
     removeDevice : (device: Device) => void,
     alterDevice : (device: Device, prop: string, value: string | number) => void
+    addDevices : (devices: Device[]) => void
 }
 
 type StoreProps = {
@@ -27,7 +27,6 @@ export const useDeviceStore = create<StoreProps>((set, get) => ({
     devices : [],
     actions : {
         addDevice : (newDevice) => {
-            newDevice.id = uuidv4()
             set((state) => ({devices : [...state.devices, newDevice]}))
         },
         removeDevice : (deviceToRemove) => set((state) => ({
@@ -42,6 +41,7 @@ export const useDeviceStore = create<StoreProps>((set, get) => ({
                 // set((state) => ({devices : [...newState, deviceToAlter]}))
             }
             
-        }
+        },
+        addDevices : (devices) => set(({devices : devices}))
     }
 }))
