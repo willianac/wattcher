@@ -5,17 +5,15 @@ import { useDeviceStore } from '../../store/devices';
 import { useCalculateEnergy } from '../../hooks/useCalculateEnergy';
 
 function ConsumptionCard() {
-    const { kWhValue } = useUserStore()
+    const { user } = useUserStore()
     const { devices } = useDeviceStore()
-    const { extras } = useUserStore()
 
     const consumption = devices.reduce((acum, current) => {
         let result = useCalculateEnergy(current)
-        return acum = acum + Number(result)
-        
+        return acum = acum + Number(result)    
     }, 0)
 
-    const totalValue = consumption * (kWhValue ? kWhValue : 0) + extras
+    const totalValue = consumption * (user.local_kwh ? user.local_kwh : 0) + user.taxes
 
     return (
         <Row gutter={16} className='p-4 bg-grayPrimary'>

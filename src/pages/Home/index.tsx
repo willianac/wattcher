@@ -1,38 +1,40 @@
 import { Empty, InputNumber, message, Modal } from "antd";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 import AnimatedWrapper from "../../animations/AnimatedWrapper";
 import DeviceIcon from "../../components/DeviceIcon";
 import DeviceForm from "../../components/DeviceForm";
 import { Device, useDeviceStore } from "../../store/devices";
 import { useRoomCounter } from "../../hooks/useRoomCounter";
-import { useUserStore } from "../../store/user";
-import axios from "axios";
+import { UserData, useUserStore } from "../../store/user";
 
 const URL = import.meta.env.VITE_API_URL;
 
 function Home() {
     const { devices } = useDeviceStore()
-    const { kWhValue, changeKwhValue, user } = useUserStore()
+    const { user, saveUser } = useUserStore()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalInputValue, setModalInputValue] = useState<number | null>(0);
     const [messageAPI, contextHolder] = message.useMessage()
     const roomCounts = useRoomCounter(devices)
 
-    const handleModal = () => {
+    const handleModal = async () => {
         if(!modalInputValue) {
             return
         }
-        changeKwhValue(modalInputValue)
+        const response = await axios.post(URL + "/changekwh", {user_id : user.id, value: modalInputValue})
+        const updatedUser = response.data as UserData
+        saveUser(updatedUser)
         setIsModalOpen(false)
     }
-    
+
     const handleModalCancel = () => {
         setIsModalOpen(false)
     }
 
     useEffect(() => {
-        if(!kWhValue) {
+        if(!user.local_kwh) {
             setIsModalOpen(true)
         }
     }, [])

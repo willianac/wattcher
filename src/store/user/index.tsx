@@ -3,14 +3,12 @@ import { create } from "zustand"
 export type UserData = {
     id: string
     name: string
+    local_kwh: number
+    taxes: number
 }
 
 type StoreProps = {
     user: UserData
-    kWhValue : number | null,
-    extras : number
-    changeKwhValue : (value: number) => void
-    changeExtraValues : (value: number) => void
     saveUser : (user: UserData) => void
     logout : () => void
     isUserLogged : boolean
@@ -20,14 +18,12 @@ type StoreProps = {
 export const useUserStore = create<StoreProps>((set) => ({
     user : {
         id : "",
-        name : ""
+        name : "",
+        local_kwh : 0,
+        taxes : 0
     },
     isUserLogged : false,
-    kWhValue : 0,
-    extras : 0,
-    saveUser : (user) => set({user : {id : user.id, name : user.name}}),
-    logout : () => set({user : {id : "", name : ""}}),
-    changeKwhValue : (value) => set({kWhValue : value}),
-    changeExtraValues : (value) => set({extras : value}),
+    saveUser : (user) => set({user : {id : user.id, name : user.name, local_kwh : user.local_kwh, taxes : user.taxes}}),
+    logout : () => set({user : {id : "", name : "", local_kwh : 0, taxes : 0}}),
     setUserLogged : (val) => set({isUserLogged : val})
 }))

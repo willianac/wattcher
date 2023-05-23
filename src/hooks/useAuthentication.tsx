@@ -22,7 +22,7 @@ export function useAuthentication() {
     try {
       const user = await axios.post(URL + "/getuser", {email, password})
       const userdata = user.data as UserData
-      saveUser({id : userdata.id, name : userdata.name})
+      saveUser(userdata)
       setUserLogged(true)
     } catch (error) {
       if(error instanceof AxiosError) {
@@ -36,7 +36,7 @@ export function useAuthentication() {
     try {
       const user = await axios.post(URL + "/createuser", {name, email, password})
       const userdata = user.data as UserData
-      saveUser({id : userdata.id, name : userdata.name})
+      saveUser(userdata)
       setUserLogged(true)
     } catch (error) {
       if(error instanceof AxiosError) {
