@@ -30,11 +30,15 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
     const [selectedValue, setSelectedValue] = useState("")
     let currentPropValue: string | number = device ? device[selectedProp] : "";
    
-    const handleOk = () => {
+    const handleOk = async () => {
         if(!selectedProp.trim() || !selectedValue) {
             return
         }
-        // alterDevice(device!, selectedProp, selectedValue)
+        await axios.put(URL + "/modifydevice", {
+            id : device?.id, 
+            prop : selectedProp, 
+            value : selectedValue
+        })
         setEditDeviceOpen(false)
     }
     const handleCancel = () => {
@@ -48,7 +52,15 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
         setEditDeviceOpen(false)
     }
 
-    let OPTIONS = Object.keys(device ?? "").filter(prop => prop !== "id")
+    // aqui podemos possivelmente o escolher o que retornar do repository de devices, ao invés desse filtro abaixo
+
+    let OPTIONS = Object.keys(device ?? "").filter(prop => (
+        prop !== "id" && 
+        prop !== "createdAt" && 
+        prop !== "updatedAt" && 
+        prop !== "user_id"
+    ))
+    
     const translatedOptions = OPTIONS.map((option) => {
         if(option === "name") return {value : option, label : "Nome"} 
         if(option === "power") return {value : option, label : "Potência"} 

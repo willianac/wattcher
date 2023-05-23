@@ -15,7 +15,6 @@ function DeviceList({ devices, room, handleEditDevice }: DeviceListProps) {
 
     const getDeviceValue = (device: Device) => {
         handleEditDevice(device)
-        console.log(device)
     }
 
     return (

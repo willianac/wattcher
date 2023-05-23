@@ -8,7 +8,7 @@ import { Device, useDeviceStore } from "../../store/devices";
 import { useRoomCounter } from "../../hooks/useRoomCounter";
 import DeviceList from "../../components/DeviceList";
 import AnimatedWrapper from "../../animations/AnimatedWrapper";
-import { useUserStore } from "../../store/user";
+import { UserData, useUserStore } from "../../store/user";
 import ModalEditDevice from "../../components/ModalEditDevice";
 
 const URL = import.meta.env.VITE_API_URL
@@ -21,7 +21,7 @@ function UserDevices() {
     const [changeBoxInputValue, setChangeBoxInputValue] = useState<null | number>(0)
     const [deviceToEdit, setDeviceToEdit] = useState<Device>()
     const { devices, actions : { addDevices } } = useDeviceStore()
-    const { extras, changeExtraValues, user } = useUserStore()
+    const { user, saveUser } = useUserStore()
     const roomCount = useRoomCounter(devices)
 
     const handleEditDevice = (device: Device) => {
@@ -29,13 +29,21 @@ function UserDevices() {
         setDeviceToEdit(device)
     }
 
-    const handleModalOk = () => {
-        changeExtraValues(modalInputValue ?? 0)
+    const changeTaxes = async (value: number) => {
+        if(value == 0) return
+
+        const response = await axios.post(URL + "/changetaxes", {user_id : user.id, value : value})
+        const userUpdated = response.data as UserData
+        saveUser(userUpdated)
+    }
+
+    const handleModalOk = async () => {
+        await changeTaxes(modalInputValue ?? 0)
         setIsModalOpen(false)
     }
 
-    const handleChangeValueBox = () => {
-        changeExtraValues(changeBoxInputValue ?? 0)
+    const handleChangeValueBox = async () => {
+        await changeTaxes(changeBoxInputValue ?? 0)
         setIsChangeBoxDisplayed(false)
     }
 
@@ -69,7 +77,7 @@ function UserDevices() {
                     <div className="flex justify-end mt-4">
                         <div className="flex flex-col bg-grayPrimary p-5 rounded-lg tracking-tighter">
                             <h3>Alterar valor das taxas</h3>
-                            <strong className="text-sm">Atual: {extras}</strong>
+                            <strong className="text-sm">Atual: {user.taxes}</strong>
                             <div className="flex gap-1">
                                 <InputNumber value={changeBoxInputValue} onChange={(val) => setChangeBoxInputValue(val)} prefix="R$"/>
                                 <Button type="primary" onClick={handleChangeValueBox}>Salvar</Button>  
@@ -90,15 +98,3 @@ function UserDevices() {
 }
 
 export default UserDevices;
-
-// useEffect(() => {
-//     console.log("useEffect chamado")
-//     if(!devices.length) {
-//       async function fetch() {
-//         const response = await axios.post(URL + "/getdevices", {userid: user.id})
-//         const devices = await response.data as Device[]
-//         addDevices(devices)
-//       }
-//       fetch()
-//     }
-//   }, [])
