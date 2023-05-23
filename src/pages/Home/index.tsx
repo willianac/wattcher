@@ -7,10 +7,13 @@ import DeviceForm from "../../components/DeviceForm";
 import { Device, useDeviceStore } from "../../store/devices";
 import { useRoomCounter } from "../../hooks/useRoomCounter";
 import { useUserStore } from "../../store/user";
+import axios from "axios";
+
+const URL = import.meta.env.VITE_API_URL;
 
 function Home() {
-    const { devices, actions : { addDevice } } = useDeviceStore()
-    const { kWhValue, changeKwhValue } = useUserStore()
+    const { devices } = useDeviceStore()
+    const { kWhValue, changeKwhValue, user } = useUserStore()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalInputValue, setModalInputValue] = useState<number | null>(0);
     const [messageAPI, contextHolder] = message.useMessage()
@@ -34,9 +37,9 @@ function Home() {
         }
     }, [])
 
-    const saveDevice = (device: Device) => {
-        console.log(device)
-        addDevice(device)
+    const saveDevice = async (device: Device) => {
+        device.user_id = user.id
+        await axios.post(URL + "/createdevice", device)
     }
     
     const throwToastError = () => {
