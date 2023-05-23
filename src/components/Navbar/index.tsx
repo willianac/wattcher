@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/user";
+import { useDeviceStore } from "../../store/devices";
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const navigate = useNavigate()
     const { user, logout, isUserLogged, setUserLogged } = useUserStore()
+    const { actions : { clearDeviceStore } } = useDeviceStore()
 
     const handleLogout = () => {
         logout()
+        clearDeviceStore()
         closeMenu()
         setUserLogged(false)
         navigate("")

@@ -2,6 +2,9 @@ import { Modal, Button, Select, Input, InputNumber } from "antd"
 import { Device, useDeviceStore } from "../../store/devices"
 import { DeleteOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
+import axios from "axios"
+
+const URL = import.meta.env.VITE_API_URL
 
 type ModalProps = {
     isOpen : boolean
@@ -22,7 +25,7 @@ const selectOptions = [
 ]
 
 function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
-    const { actions : { removeDevice, alterDevice } } = useDeviceStore()
+    const { actions : { clearDeviceStore } } = useDeviceStore()
     const [selectedProp, setSelectedProp] = useState("")
     const [selectedValue, setSelectedValue] = useState("")
     let currentPropValue: string | number = device ? device[selectedProp] : "";
@@ -31,7 +34,7 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
         if(!selectedProp.trim() || !selectedValue) {
             return
         }
-        alterDevice(device!, selectedProp, selectedValue)
+        // alterDevice(device!, selectedProp, selectedValue)
         setEditDeviceOpen(false)
     }
     const handleCancel = () => {
@@ -39,8 +42,9 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
         setEditDeviceOpen(false)
     }
 
-    const deleteDevice = () => {
-        device && removeDevice(device)
+    const deleteDevice = async () => {
+        device && await axios.delete(URL + "/deletedevice", {data : device.id})
+        clearDeviceStore()
         setEditDeviceOpen(false)
     }
 

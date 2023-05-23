@@ -1,6 +1,7 @@
 import { Tabs, TabsProps, Button, Modal, InputNumber } from "antd";
 import { PlusOutlined } from "@ant-design/icons"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 import ConsumptionCard from '../../components/ConsumptionCard';
 import { Device, useDeviceStore } from "../../store/devices";
@@ -9,7 +10,8 @@ import DeviceList from "../../components/DeviceList";
 import AnimatedWrapper from "../../animations/AnimatedWrapper";
 import { useUserStore } from "../../store/user";
 import ModalEditDevice from "../../components/ModalEditDevice";
-import { useGetDevices } from "../../hooks/useGetDevices" 
+
+const URL = import.meta.env.VITE_API_URL
 
 function UserDevices() {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -18,10 +20,9 @@ function UserDevices() {
     const [modalInputValue, setModalInputValue] = useState<null | number>(0)
     const [changeBoxInputValue, setChangeBoxInputValue] = useState<null | number>(0)
     const [deviceToEdit, setDeviceToEdit] = useState<Device>()
-    const { devices } = useDeviceStore()
-    const { extras, changeExtraValues } = useUserStore()
+    const { devices, actions : { addDevices } } = useDeviceStore()
+    const { extras, changeExtraValues, user } = useUserStore()
     const roomCount = useRoomCounter(devices)
-    useGetDevices();
 
     const handleEditDevice = (device: Device) => {
         setEditDeviceOpen(!isEditDeviceOpen)
@@ -45,6 +46,16 @@ function UserDevices() {
           children : <DeviceList devices={devices} room={room} handleEditDevice={handleEditDevice}/>
           }
       })
+
+      useEffect(() => {
+          async function fetch() {
+            const response = await axios.post(URL + "/getdevices", {userid: user.id})
+            const devices = await response.data as Device[]
+            addDevices(devices)
+          }
+          console.log("calling")
+          fetch()
+      }, [isEditDeviceOpen])
 
     return (
         <div className="overflow-hidden lg:mx-72">
@@ -80,11 +91,14 @@ function UserDevices() {
 
 export default UserDevices;
 
-
-// const getDevices = useGetDevices();
-    
-//     useEffect(() => {
-//         if(getDevices) {
-//             addDevices(getDevices)
-//         }
-//     }, [getDevices])
+// useEffect(() => {
+//     console.log("useEffect chamado")
+//     if(!devices.length) {
+//       async function fetch() {
+//         const response = await axios.post(URL + "/getdevices", {userid: user.id})
+//         const devices = await response.data as Device[]
+//         addDevices(devices)
+//       }
+//       fetch()
+//     }
+//   }, [])
