@@ -19,7 +19,7 @@ function DeviceList({ devices, room, handleEditDevice }: DeviceListProps) {
 
     return (
         <>
-            <h3 className="text-base mb-1">{room} gasta no total {roomConsumption} kWh.</h3>
+            <h3 className="text-base mb-1">{room} gasta no total {roomConsumption.toFixed(2)} kWh.</h3>
             <AnimatedList>
                 {listOfRoomDevices.map((device, index) => (
                     <Descriptions 
