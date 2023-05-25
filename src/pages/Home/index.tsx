@@ -1,4 +1,4 @@
-import { Empty, InputNumber, message, Modal } from "antd";
+import { Empty, InputNumber, message, notification, Modal } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -13,10 +13,13 @@ const URL = import.meta.env.VITE_API_URL;
 
 function Home() {
     const { devices } = useDeviceStore()
-    const { user, saveUser } = useUserStore()
+    const { user, saveUser, isUserLogged } = useUserStore()
+
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalInputValue, setModalInputValue] = useState<number | null>(0);
-    const [messageAPI, contextHolder] = message.useMessage()
+    const [messageAPI, messageContext] = message.useMessage()
+    const [notificationAPI, notificationContext] = notification.useNotification()
+
     const roomCounts = useRoomCounter(devices)
 
     const handleModal = async () => {
@@ -34,8 +37,14 @@ function Home() {
     }
 
     useEffect(() => {
-        if(!user.local_kwh) {
-            setIsModalOpen(true)
+        if(isUserLogged && !user.local_kwh) {
+            return setIsModalOpen(true)
+        }
+        if(!isUserLogged) {
+            return notificationAPI.warning({
+                message : "Você não está logado",
+                description : "É necessário se logar para poder salvar os aparelhos cadastrados abaixo."
+            })
         }
     }, [])
 
@@ -53,7 +62,8 @@ function Home() {
 
     return (
         <div className="mt-12 px-4 lg:mx-72">
-            {contextHolder}
+            {messageContext}
+            {notificationContext}
             <Modal title="Quanto custa o kWh na sua cidade?" open={isModalOpen} onOk={handleModal} onCancel={handleModalCancel}>
                 <p>Antes de adicionar os aparelhos, primeiro precisamos saber quanto custa o valor do kWh na sua cidade</p>
                 <InputNumber className="mt-1" value={modalInputValue} onChange={(val) => setModalInputValue(val)} required={true}/>

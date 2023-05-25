@@ -16,7 +16,7 @@ const URL = import.meta.env.VITE_API_URL
 
 function UserDevices() {
     const { devices, actions : { addDevices } } = useDeviceStore()
-    const { user, saveUser } = useUserStore()
+    const { user, saveUser, isUserLogged } = useUserStore()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isChangeBoxDisplayed, setIsChangeBoxDisplayed] = useState(false)
@@ -57,8 +57,7 @@ function UserDevices() {
             const devices = await response.data as Device[]
             addDevices(devices)
           }
-          console.log("calling")
-          fetch()
+          if(isUserLogged) fetch()
       }, [isEditDeviceOpen])
 
     return (

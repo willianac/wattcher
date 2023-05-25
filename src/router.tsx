@@ -6,11 +6,13 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import UserDevices from './pages/UserDevices';
+import Error from './pages/Error';
 
 const routes = createBrowserRouter([
     {
         path : "/",
         element : <App />,
+        errorElement : <Error />,
         children : [
             {
                 path : "/",
@@ -21,7 +23,7 @@ const routes = createBrowserRouter([
                 element : <Login />
             },
             {
-                path : "/cadastrar",
+                path : "/register",
                 element : <Register />
             },
             {

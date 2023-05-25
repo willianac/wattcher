@@ -43,7 +43,10 @@ function Login() {
             if(response === "network_error") {
                 return messageApi.error("Erro de servidor")
             }
-            navigate("/home")
+            messageApi.success("Autenticado com sucesso!")
+            setTimeout(() => {
+                navigate("/home")
+            }, 1000)
         }
     })
 
@@ -94,7 +97,7 @@ function Login() {
                 </Button>
             </form>
             <p className="px-4 text-sm mt-3 lg:mx-72">
-                Não tem uma conta? <Link to="/cadastrar" className="text-blue-600">Cadastre-se</Link> 
+                Não tem uma conta? <Link to="/register" className="text-blue-600">Cadastre-se</Link> 
             </p>
         </AnimatedWrapper>
     )

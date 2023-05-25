@@ -48,7 +48,10 @@ function Register() {
             if(response == "network_error") {
                 return messageApi.error("Erro de servidor")
             }
-            navigate("/home")
+            messageApi.success("Registrado com sucesso!")
+            setTimeout(() => {
+                navigate("/home")
+            }, 1000)
         },
         
     })
