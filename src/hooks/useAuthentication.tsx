@@ -1,6 +1,8 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import { AxiosError } from "axios"
 import { UserData, useUserStore } from "../store/user";
+import { useHandleToken } from "./useHandleToken";
 
 const URL = import.meta.env.VITE_API_URL
 
@@ -17,13 +19,15 @@ type RegisterParams = {
 
 export function useAuthentication() {
   const { saveUser, setUserLogged } = useUserStore()
+  const { setToken } = useHandleToken()
 
   async function login({ email, password }: LoginParams) {
     try {
-      const user = await axios.post(URL + "/getuser", {email, password})
-      const userdata = user.data as UserData
+      const userToken = await axios.post(URL + "/getuser", {email, password}) 
+      const userdata = jwtDecode(userToken.data) as UserData
       saveUser(userdata)
       setUserLogged(true)
+      setToken(userToken.data)
     } catch (error) {
       if(error instanceof AxiosError) {
         if(error.code === "ERR_NETWORK") return "network_error"

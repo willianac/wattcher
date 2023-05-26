@@ -1,15 +1,26 @@
 import { create } from "zustand";
 
+export enum RoomEnum {
+    "Sala",
+    "Banheiro",
+    "Cozinha",
+    "Quarto",
+    "Escritório",
+    "Quintal",
+    "Terraço/Varanda",
+    "Garagem",
+    "Outros",
+}
+
 export type Device = {
     id?: string
     power: number
     daily_use: number
     month_use: number
     name: string
-    room: string
+    room: RoomEnum
     amount?: number
     user_id : string
-    [key : string]: any
 }
 
 type ActionProps = {
