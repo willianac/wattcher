@@ -1,5 +1,5 @@
 import { Modal, Button, Select, Input, InputNumber } from "antd"
-import { Device, useDeviceStore } from "../../store/devices"
+import { Device, RoomEnum, useDeviceStore } from "../../store/devices"
 import { DeleteOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -12,22 +12,16 @@ type ModalProps = {
     setEditDeviceOpen : React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const selectOptions = [
-    {value : "Sala", label : "Sala"}, 
-    {value: "Banheiro", label: "Banheiro"}, 
-    {value: "Cozinha", label: "Cozinha"}, 
-    {value: "Quarto", label: "Quarto"}, 
-    {value: "Escritório", label: "Escritório"}, 
-    {value: "Quintal", label: "Quintal"}, 
-    {value: "Terraço/Varanda", label: "Terraço/Varanda"}, 
-    {value : "Garagem", label : "Garagem"}, 
-    {value: "Outros", label: "Outros"}
-]
+
+const roomDict = Object.values(RoomEnum).map(item => ({
+    value: item, label: item,
+}))
 
 function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
     const { actions : { clearDeviceStore } } = useDeviceStore()
     const [selectedProp, setSelectedProp] = useState("")
-    const [selectedValue, setSelectedValue] = useState("")
+    const [selectedValue, setSelectedValue] = useState<RoomEnum | string>()
+    // @ts-ignore
     let currentPropValue: string | number = device ? device[selectedProp] : "";
    
     const handleOk = async () => {
@@ -54,14 +48,17 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
 
     // aqui podemos possivelmente o escolher o que retornar do repository de devices, ao invés desse filtro abaixo
 
-    let OPTIONS = Object.keys(device ?? "").filter(prop => (
+    let optionKeys = Object.keys(device ?? "").filter(prop => (
         prop !== "id" && 
         prop !== "createdAt" && 
         prop !== "updatedAt" && 
         prop !== "user_id"
     ))
+
+
+    // const translatedOptions = optionKeys.map((option) => dict[option]);
     
-    const translatedOptions = OPTIONS.map((option) => {
+    const translatedOptions = optionKeys.map((option) => {
         if(option === "name") return {value : option, label : "Nome"} 
         if(option === "power") return {value : option, label : "Potência"} 
         if(option === "room") return {value : option, label : "Cômodo"} 
@@ -71,7 +68,7 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
     })
 
     useEffect(() => {
-        setSelectedValue("")
+        setSelectedValue(undefined)
     }, [selectedProp]) 
 
     function displayInput() {
@@ -79,9 +76,9 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
         if(selectedProp === "room") {
             return (
                 <Select 
-                    options={selectOptions}
+                    options={roomDict}
                     className="w-36"
-                    onChange={(room) => setSelectedValue(room)}
+                    onChange={(room) => setSelectedValue(room as unknown as RoomEnum)}
                     value={selectedValue}
                 />
             )
@@ -92,15 +89,15 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
                     type="text" 
                     placeholder="Digite o novo nome" 
                     className="w-36" 
-                    onChange={(val) => setSelectedValue(val.target.value)} 
+                    onChange={(val) => setSelectedValue(val.target.value as unknown as string)} 
                     value={selectedValue}
                 />
             )
         }
         return (
             <InputNumber 
-                min="0" 
-                max={selectedProp === "daily_use" ? "24" : (selectedProp === "month_use" ? "31" : "") }  
+                min={"0"}
+                max={selectedProp === "daily_use" ? "24" : (selectedProp === "month_use" ? "31" : undefined) }
                 placeholder="Digite o novo valor"
                 className="w-36" 
                 onChange={(val) => setSelectedValue(val!)} 
