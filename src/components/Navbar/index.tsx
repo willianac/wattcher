@@ -3,10 +3,12 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/user";
 import { useDeviceStore } from "../../store/devices";
 import "./navbar.css"
+import { useHandleToken } from "../../hooks/useHandleToken";
 
 function Navbar() {
   const { user, logout, isUserLogged, setUserLogged } = useUserStore()
   const { actions : { clearDeviceStore } } = useDeviceStore()
+  const { deleteToken } = useHandleToken()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
@@ -15,8 +17,9 @@ function Navbar() {
   const handleLogout = () => {
     logout()
     clearDeviceStore()
-    closeMenu()
     setUserLogged(false)
+    deleteToken()
+    closeMenu()
     navigate("")
   }
 

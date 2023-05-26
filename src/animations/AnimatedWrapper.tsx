@@ -5,7 +5,7 @@ type Props = {
 }
 
 function AnimatedWrapper({ children }: Props) {
-    const [springs, api] = useSpring(
+    const [springs] = useSpring(
         () => ({
             from : { opacity : 0 },
             to : { opacity : 1 },
@@ -16,7 +16,7 @@ function AnimatedWrapper({ children }: Props) {
 }
 
 export function AnimateText({ children }: Props) {
-    const [springs, api] = useSpring(
+    const [springs] = useSpring(
         () => ({
             from : { y : -30 },
             to : { y : 0 },

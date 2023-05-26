@@ -9,7 +9,6 @@ export type Device = {
     room: string
     amount?: number
     user_id : string
-    [key : string]: any
 }
 
 type ActionProps = {
