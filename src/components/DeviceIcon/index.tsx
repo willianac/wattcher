@@ -25,7 +25,7 @@ function DeviceIcon ({ room_name, quantity }: DeviceIconProps) {
         case "Quintal":
             ICON = "yard"
             break;
-        case "Terraço/Varanda":
+        case "Varanda":
             ICON = "balcony"
             break;
         case "Cozinha":

@@ -7,15 +7,15 @@ import AnimatedWrapper from "../../animations/AnimatedWrapper";
 import animation from "../../assets/register_queue_animation.svg";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import { useUserStore } from "../../store/user";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Register() {
     const { register } = useAuthentication()
+    const { isUserLogged} = useUserStore()
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const [messageApi, contextHolder] = message.useMessage()
     
-    const { isUserLogged} = useUserStore()
-
     useEffect(() => {
        if(isUserLogged) {
         navigate("/home")
@@ -41,13 +41,17 @@ function Register() {
                 .min(6, "A senha deve ter mais que 6 caracteres")
         }),
         onSubmit : async (values) => {
+            setIsLoading(true)
             const response = await register(values)
             if(response == "already_exists") {
+                setIsLoading(false)
                 return messageApi.error("Esse usuário já existe")
             }
             if(response == "network_error") {
+                setIsLoading(false)
                 return messageApi.error("Erro de servidor")
             }
+            setIsLoading(false)
             messageApi.success("Registrado com sucesso!")
             setTimeout(() => {
                 navigate("/home")
@@ -111,6 +115,7 @@ function Register() {
                     className="bg-colorPrimary mt-2" 
                     size="large"
                     disabled={!formik.isValid}
+                    loading={isLoading}
                     >Registrar
                 </Button>
             </form>

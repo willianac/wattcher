@@ -1,19 +1,20 @@
 import { Form, InputNumber, Slider, Select, Button, AutoComplete, message } from "antd"
+import { NoticeType } from "antd/es/message/interface"
 import { useState } from "react"
 import { Device } from "../../store/devices"
 import { useUserStore } from "../../store/user"
 
 const OPTIONS = {
     autocompleteOptions : [{value: "geladeira"}, {value : "máquina de lavar"}, {value : "lava-louças"}, {value : "computador"}, {value : "televisão"}, {value : "monitor"}, {value : "lâmpada"}, {value : "ventilador"}, {value : "ar-condicionado"}, {value : "chuveiro elétrico"}],
-    selectOptions : [{value : "Sala", label : "Sala"}, {value: "Banheiro", label: "Banheiro"}, {value: "Cozinha", label: "Cozinha"}, {value: "Quarto", label: "Quarto"}, {value: "Escritório", label: "Escritório"}, {value: "Quintal", label: "Quintal"}, {value: "Terraço/Varanda", label: "Terraço/Varanda"}, {value : "Garagem", label : "Garagem"}, {value: "Outros", label: "Outros"}]
+    selectOptions : [{value : "Sala", label : "Sala"}, {value: "Banheiro", label: "Banheiro"}, {value: "Cozinha", label: "Cozinha"}, {value: "Quarto", label: "Quarto"}, {value: "Escritório", label: "Escritório"}, {value: "Quintal", label: "Quintal"}, {value: "Varanda", label: "Varanda"}, {value : "Garagem", label : "Garagem"}, {value: "Outros", label: "Outros"}]
 }
 
 type DeviceFormActions = {
     saveDevice: (device: Device) => void,
-    throwToastError: () => void
+    throwToast: (type: NoticeType, message: string) => void
 }
 
-function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
+function DeviceForm({ saveDevice, throwToast }: DeviceFormActions) {
     const { isUserLogged } = useUserStore()
     const [options, setOptions] = useState(OPTIONS.autocompleteOptions)
     const [amountInput, setAmountInput] = useState(false)
@@ -44,10 +45,9 @@ function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
 
     return (
         <>
-            {contextHolder}
             <Form
             onFinish={handleSubmit}
-            onFinishFailed={throwToastError}
+            onFinishFailed={() => throwToast("error", "Por favor preencha todos os campos")}
             className="mt-4"
             form={form}
             >
@@ -89,6 +89,7 @@ function DeviceForm({ saveDevice, throwToastError }: DeviceFormActions) {
                 </Form.Item>
 
             </Form>
+            {contextHolder}
         </>
     )
 }

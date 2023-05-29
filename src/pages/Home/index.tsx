@@ -1,4 +1,5 @@
 import { Empty, InputNumber, message, notification, Modal } from "antd";
+import { NoticeType } from "antd/es/message/interface";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -38,6 +39,7 @@ function Home() {
 
     useEffect(() => {
         if(isUserLogged && !user.local_kwh) {
+            notificationAPI.destroy()
             return setIsModalOpen(true)
         }
         if(!isUserLogged) {
@@ -46,27 +48,27 @@ function Home() {
                 description : "É necessário se logar para poder salvar os aparelhos cadastrados abaixo."
             })
         }
-    }, [])
+        notificationAPI.destroy()
+    }, [isUserLogged])
 
     const saveDevice = async (device: Device) => {
         device.user_id = user.id
         await axios.post(URL + "/createdevice", device)
+        throwToast("success", "Adicionado com sucesso!")
     }
     
-    const throwToastError = () => {
+    const throwToast = (type: NoticeType, message: string) => {
         messageAPI.open({
-            type : "error",
-            content : "Por favor preencha todos os campos"
+            type,
+            content : message
         })
     }
 
     return (
         <div className="mt-12 px-4 lg:mx-72">
-            {messageContext}
-            {notificationContext}
             <Modal title="Quanto custa o kWh na sua cidade?" open={isModalOpen} onOk={handleModal} onCancel={handleModalCancel}>
                 <p>Antes de adicionar os aparelhos, primeiro precisamos saber quanto custa o valor do kWh na sua cidade</p>
-                <InputNumber className="mt-1" value={modalInputValue} onChange={(val) => setModalInputValue(val)} required={true}/>
+                <InputNumber min={0} value={modalInputValue} onChange={(val) => setModalInputValue(val)} required={true} className="mt-1"/>
             </Modal>
             <AnimatedWrapper>
                 {devices.length ? 
@@ -84,8 +86,10 @@ function Home() {
                     </div> :
                     <h1 className="text-3xl font-bold tracking-tighter mt-6">Adicionar aparelho</h1>
                 }
-                <DeviceForm saveDevice={saveDevice} throwToastError={throwToastError}/>
-            </AnimatedWrapper>     
+                <DeviceForm saveDevice={saveDevice} throwToast={throwToast}/>
+            </AnimatedWrapper>
+            {messageContext}
+            {notificationContext}     
         </div>
     )
 }

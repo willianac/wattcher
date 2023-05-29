@@ -38,10 +38,11 @@ export function useAuthentication() {
 
   async function register({ name, email, password }: RegisterParams) {
     try {
-      const user = await axios.post(URL + "/createuser", {name, email, password})
-      const userdata = user.data as UserData
+      const userToken = await axios.post(URL + "/createuser", {name, email, password})
+      const userdata = jwtDecode(userToken.data) as UserData
       saveUser(userdata)
       setUserLogged(true)
+      setToken(userToken.data)
     } catch (error) {
       if(error instanceof AxiosError) {
         if(error.code == "ERR_NETWORK") return "network_error"

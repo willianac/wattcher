@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
 export enum RoomEnum {
-    "Sala",
-    "Banheiro",
-    "Cozinha",
-    "Quarto",
-    "Escritório",
-    "Quintal",
-    "Terraço/Varanda",
-    "Garagem",
-    "Outros",
+    A = "Sala",
+    B = "Banheiro",
+    C = "Cozinha",
+    D = "Quarto",
+    E = "Escritório",
+    F = "Quintal",
+    G = "Varanda",
+    H = "Garagem",
+    I = "Outros",
 }
 
 export type Device = {

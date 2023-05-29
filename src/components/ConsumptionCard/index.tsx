@@ -13,7 +13,7 @@ function ConsumptionCard() {
         return acum = acum + Number(result)    
     }, 0)
 
-    const totalValue = consumption * (user.local_kwh ? user.local_kwh : 0) + user.taxes ? user.taxes : 0
+    const totalValue = consumption * (user.local_kwh ? user.local_kwh : 0) + (user.taxes ? user.taxes : 0)
     
     return (
         <Row gutter={16} className='p-4 bg-grayPrimary'>

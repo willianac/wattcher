@@ -7,11 +7,12 @@ import AnimatedWrapper from "../../animations/AnimatedWrapper";
 import animation from "../../assets/login_animation.svg"
 import { useAuthentication } from "../../hooks/useAuthentication";
 import { useUserStore } from "../../store/user";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Login() {
     const { login } = useAuthentication()
     const { isUserLogged } = useUserStore()
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const [messageApi, contextHolder] = message.useMessage()
 
@@ -36,13 +37,17 @@ function Login() {
                 .required("Senha deve ser preenchida")
         }),
         onSubmit : async (values) => {
+            setIsLoading(true)
             const response = await login(values)
             if(response === "wrong_credentials") {
+                setIsLoading(false)
                 return messageApi.error("Credenciais inválidas")
             }
             if(response === "network_error") {
+                setIsLoading(false)
                 return messageApi.error("Erro de servidor")
             }
+            setIsLoading(false)
             messageApi.success("Autenticado com sucesso!")
             setTimeout(() => {
                 navigate("/home")
@@ -93,7 +98,8 @@ function Login() {
                     htmlType="submit" 
                     className="bg-colorPrimary mt-2"
                     disabled={!formik.isValid}
-                    >Enviar
+                    loading={isLoading}
+                    >Entrar
                 </Button>
             </form>
             <p className="px-4 text-sm mt-3 lg:mx-72">
