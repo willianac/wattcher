@@ -13,12 +13,15 @@ function ChangeValuesBox({ changeValues, setBoxVisibility }: ComponentProps) {
 
   const [kwhInputValue, setKwhInputValue] = useState(user.local_kwh)
   const [taxesInputValue, setTaxesInputValue] = useState(user.taxes)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleChange = async() => {
+    setIsLoading(true)
     const kwh = changeValues(kwhInputValue, "changekwh")
     const taxes = changeValues(taxesInputValue, "changetaxes")
 
     await Promise.allSettled([kwh, taxes])
+    setIsLoading(false)
     setBoxVisibility(false)
   }
 
@@ -32,7 +35,7 @@ function ChangeValuesBox({ changeValues, setBoxVisibility }: ComponentProps) {
         <span>Impostos:</span>
         <InputNumber value={taxesInputValue} onChange={(val) => setTaxesInputValue(val ?? 0)} prefix="R$"/>
       </div>
-      <Button type="primary" className="mt-6" onClick={handleChange}>Salvar</Button>
+      <Button type="primary" className="mt-6" onClick={handleChange} loading={isLoading}>Salvar</Button>
     </div>
   )
 }

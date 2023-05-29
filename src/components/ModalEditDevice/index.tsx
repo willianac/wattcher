@@ -12,7 +12,6 @@ type ModalProps = {
     setEditDeviceOpen : React.Dispatch<React.SetStateAction<boolean>>
 }
 
-
 const roomDict = Object.values(RoomEnum).map(item => ({
     value: item, label: item,
 }))
@@ -21,6 +20,9 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
     const { actions : { clearDeviceStore } } = useDeviceStore()
     const [selectedProp, setSelectedProp] = useState("")
     const [selectedValue, setSelectedValue] = useState<RoomEnum | string>()
+
+    const [isModalOkLoading, setIsModalOkLoading] = useState(false)
+    const [isDeleteRunning, setIsDeleteRunning] = useState(false)
     // @ts-ignore
     let currentPropValue: string | number = device ? device[selectedProp] : "";
    
@@ -28,11 +30,13 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
         if(!selectedProp.trim() || !selectedValue) {
             return
         }
+        setIsModalOkLoading(true)
         await axios.put(URL + "/modifydevice", {
             id : device?.id, 
             prop : selectedProp, 
             value : selectedValue
         })
+        setIsModalOkLoading(false)
         setEditDeviceOpen(false)
     }
     const handleCancel = () => {
@@ -41,7 +45,11 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
     }
 
     const deleteDevice = async () => {
+        setIsDeleteRunning(true)
+
         device && await axios.delete(URL + "/deletedevice", {data : device.id})
+
+        setIsDeleteRunning(false)
         clearDeviceStore()
         setEditDeviceOpen(false)
     }
@@ -54,9 +62,6 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
         prop !== "updatedAt" && 
         prop !== "user_id"
     ))
-
-
-    // const translatedOptions = optionKeys.map((option) => dict[option]);
     
     const translatedOptions = optionKeys.map((option) => {
         if(option === "name") return {value : option, label : "Nome"} 
@@ -96,7 +101,7 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
         }
         return (
             <InputNumber 
-                min={"0"}
+                min="0"
                 max={selectedProp === "daily_use" ? "24" : (selectedProp === "month_use" ? "31" : undefined) }
                 placeholder="Digite o novo valor"
                 className="w-36" 
@@ -107,7 +112,7 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
     }
   
     return (
-        <Modal title="Alterar valor" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Modal title="Alterar valor" open={isOpen} onOk={handleOk} onCancel={handleCancel} confirmLoading={isModalOkLoading}>
             <div className="flex justify-between items-end">
                 <div className="flex flex-col">
                     <p>Selecione o que deseja alterar:</p>
@@ -127,6 +132,7 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
                     onClick={deleteDevice} 
                     className="bg-red-500 text-white flex items-center" 
                     icon={<DeleteOutlined />}
+                    loading={isDeleteRunning}
                     >Exluir aparelho
                 </Button>
             </div>

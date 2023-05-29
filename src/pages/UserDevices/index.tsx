@@ -52,13 +52,13 @@ function UserDevices() {
       })
 
       useEffect(() => {
-          async function fetch() {
+          async function fetchDevices() {
             const response = await axios.post(URL + "/getdevices", {userid: user.id})
-            const devices = await response.data as Device[]
-            addDevices(devices)
+            const fetchedDevices = await response.data as Device[]
+            addDevices(fetchedDevices)
           }
-          if(isUserLogged) fetch()
-      }, [isEditDeviceOpen])
+          if(isUserLogged) fetchDevices()
+      }, [isEditDeviceOpen, isUserLogged])
 
     return (
         <div className="overflow-hidden lg:mx-72">

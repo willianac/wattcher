@@ -15,8 +15,8 @@ function App() {
   async function verifyToken() {
     try {
       const bearerToken = getToken()
-      const response = await axios.get(URL + "/verifytoken", {headers : {Authorization : `Bearer ${bearerToken}`}})
-      saveUser(response.data as UserData)
+      const tokenResponse = await axios.get(URL + "/verifytoken", {headers : {Authorization : `Bearer ${bearerToken}`}})
+      saveUser(tokenResponse.data as UserData)
       setUserLogged(true)
     } catch (error) {
       deleteToken()
