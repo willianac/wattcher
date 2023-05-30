@@ -31,7 +31,8 @@ export function useAuthentication() {
     } catch (error) {
       if(error instanceof AxiosError) {
         if(error.code === "ERR_NETWORK") return "network_error"
-        if(error.response?.statusText === "Unauthorized") return "wrong_credentials"
+        if(error.response?.status == 401) return "wrong_credentials"
+        return error
       }
     }
   }
