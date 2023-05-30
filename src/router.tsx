@@ -33,6 +33,10 @@ const routes = createBrowserRouter([
             {
                 path : "/mydevices",
                 element : <UserDevices />,
+            },
+            {
+                path : "*",
+                element : <Error />
             }
         ]
     }
