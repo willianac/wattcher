@@ -8,9 +8,11 @@ import { useCalculateEnergy } from "../../hooks/useCalculateEnergy";
 
 function LandingPage() {
     const [energykWh, setEnergykWh] = useState("")
+
+    const calculate = useCalculateEnergy
     
     const calculateEnergy = (device: Device) => {
-        const result = useCalculateEnergy(device)
+        const result = calculate(device)
         setEnergykWh(result)
     }
   

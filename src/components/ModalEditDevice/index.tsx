@@ -23,8 +23,9 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
 
     const [isModalOkLoading, setIsModalOkLoading] = useState(false)
     const [isDeleteRunning, setIsDeleteRunning] = useState(false)
-    // @ts-ignore
-    let currentPropValue: string | number = device ? device[selectedProp] : "";
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    const currentPropValue: string | number = device ? device[selectedProp] : "";
    
     const handleOk = async () => {
         if(!selectedProp.trim() || !selectedValue) {
@@ -56,7 +57,7 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
 
     // aqui podemos possivelmente o escolher o que retornar do repository de devices, ao invés desse filtro abaixo
 
-    let optionKeys = Object.keys(device ?? "").filter(prop => (
+    const optionKeys = Object.keys(device ?? "").filter(prop => (
         prop !== "id" && 
         prop !== "createdAt" && 
         prop !== "updatedAt" && 
@@ -105,7 +106,7 @@ function ModalEditDevice({ isOpen, device, setEditDeviceOpen }: ModalProps) {
                 max={selectedProp === "daily_use" ? "24" : (selectedProp === "month_use" ? "31" : undefined) }
                 placeholder="Digite o novo valor"
                 className="w-36" 
-                onChange={(val) => setSelectedValue(val!)} 
+                onChange={(val) => setSelectedValue(val as string)} 
                 value={selectedValue}
             />
         )

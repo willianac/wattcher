@@ -48,7 +48,7 @@ function Navbar() {
           <ul className="flex flex-col bg-grayPrimary p-6 gap-2 rounded-md md:flex-row md:p-0 md:mt-0 md:bg-transparent md:gap-4">
             {isUserLogged &&
               <li className="mb-2 md:mb-0 md:pr-4">
-                <span className={`font-semibold text-lg md:text-base text-gray-500`}>Olá, {user.name}</span>
+                <span className="font-semibold text-lg md:text-base text-gray-500">Olá, {user.name}</span>
               </li>
             }
             <li>
@@ -67,7 +67,7 @@ function Navbar() {
             </li>
             <li>
               {isUserLogged ? 
-                <span className={`font-semibold cursor-pointer text-lg md:text-base hover:underline decoration-colorPrimary underline-offset-4 decoration-2`} onClick={handleLogout}>Logout</span> :
+                <span className="font-semibold cursor-pointer text-lg md:text-base hover:underline decoration-colorPrimary underline-offset-4 decoration-2" onClick={handleLogout}>Logout</span> :
               <NavLink to="/login" onClick={closeMenu}>
                 {({ isActive }) => (
                   <span className={`font-semibold text-lg md:text-base hover:underline decoration-colorPrimary underline-offset-4 decoration-2 ${isActive ? "text-colorPrimary" : " "}`}>Entrar</span>

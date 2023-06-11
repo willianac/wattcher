@@ -1,15 +1,17 @@
-import { Card, Col, Row, Statistic } from 'antd';
+import { Card, Col, Row, Statistic } from "antd";
 
-import { useUserStore } from '../../store/user';
-import { useDeviceStore } from '../../store/devices';
-import { useCalculateEnergy } from '../../hooks/useCalculateEnergy';
+import { useUserStore } from "../../store/user";
+import { useDeviceStore } from "../../store/devices";
+import { useCalculateEnergy } from "../../hooks/useCalculateEnergy";
 
 function ConsumptionCard() {
     const { user } = useUserStore()
     const { devices } = useDeviceStore()
+    
+    const calculateEnergy = useCalculateEnergy
 
     const consumption = devices.reduce((acum, current) => {
-        let result = useCalculateEnergy(current)
+        const result = calculateEnergy(current)
         return acum = acum + Number(result)    
     }, 0)
 

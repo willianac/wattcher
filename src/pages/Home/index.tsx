@@ -49,7 +49,7 @@ function Home() {
             })
         }
         notificationAPI.destroy()
-    }, [isUserLogged])
+    }, [isUserLogged, notificationAPI, user.local_kwh])
 
     const saveDevice = async (device: Device) => {
         device.user_id = user.id

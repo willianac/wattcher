@@ -1,5 +1,5 @@
 import { Device } from "../../store/devices";
-import { Descriptions, Button } from 'antd';
+import { Descriptions, Button } from "antd";
 import { AnimatedList } from "../../animations/AnimatedList";
 import { useCalculateRoomEnergy } from "../../hooks/useCalculateEnergy";
 
@@ -11,7 +11,10 @@ type DeviceListProps = {
 
 function DeviceList({ devices, room, handleEditDevice }: DeviceListProps) {
     const listOfRoomDevices = devices.filter(device => device.room === room)
-    let roomConsumption = listOfRoomDevices ? useCalculateRoomEnergy(listOfRoomDevices) : 0
+
+    const calculateEnergy = useCalculateRoomEnergy
+
+    const roomConsumption = listOfRoomDevices ? calculateEnergy(listOfRoomDevices) : 0
 
     const getDeviceValue = (device: Device) => {
         handleEditDevice(device)

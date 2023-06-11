@@ -2,6 +2,10 @@ import { Form, InputNumber, Button, Select, SelectProps } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { Device } from "../../store/devices";
 
+type ComponentProps = {
+    calc : (device: Device) => void
+}
+
 const options: SelectProps["options"] = [];
 
 for(let i = 1; i <= 24; i++) {
@@ -10,11 +14,11 @@ for(let i = 1; i <= 24; i++) {
   )
 }
 
-function IntroForm ({ calc }: any) {
+function IntroForm ({ calc }: ComponentProps) {
     const [form] = Form.useForm()
 
     const getValues = () => {
-        let values = form.getFieldsValue() as Device
+        const values = form.getFieldsValue() as Device
         calc(values)
         form.resetFields()
     }
