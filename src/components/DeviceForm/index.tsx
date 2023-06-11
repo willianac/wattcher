@@ -24,7 +24,7 @@ function DeviceForm({ saveDevice, throwToast }: DeviceFormActions) {
     const handleAutocompleteChange = (text: string) => {
         handleAmountInput(text)
         if(!text.trim()) {return setOptions(OPTIONS.autocompleteOptions)}
-        let filteredOptions = OPTIONS.autocompleteOptions.filter((val) => val.value.startsWith(text))
+        const filteredOptions = OPTIONS.autocompleteOptions.filter((val) => val.value.startsWith(text))
         setOptions(filteredOptions)
     } 
 

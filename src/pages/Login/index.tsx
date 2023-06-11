@@ -20,7 +20,7 @@ function Login() {
         if(isUserLogged) {
             navigate("/home")
         }
-    }, [])
+    })
 
     const formik = useFormik({
         validateOnMount : true,

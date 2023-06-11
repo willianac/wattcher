@@ -10,8 +10,10 @@ export function useCalculateEnergy(values: Device) {
 }
 
 export function useCalculateRoomEnergy(devices: Device[]) {
+    const calculateEnergy = useCalculateEnergy
+
     return devices.reduce((acum, current) => {
-        let result = useCalculateEnergy(current);
+        const result = calculateEnergy(current);
         return acum = acum + Number(result)
     }, 0)
 

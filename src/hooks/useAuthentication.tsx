@@ -4,6 +4,8 @@ import { AxiosError } from "axios"
 import { UserData, useUserStore } from "../store/user";
 import { useHandleToken } from "./useHandleToken";
 
+
+// eslint-disable-next-line react-refresh/only-export-components
 const URL = import.meta.env.VITE_API_URL
 
 type LoginParams = {

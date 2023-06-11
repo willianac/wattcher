@@ -1,9 +1,10 @@
+
 import { Tabs, TabsProps, Button, Modal, InputNumber } from "antd";
 import { PlusOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import ConsumptionCard from '../../components/ConsumptionCard';
+import ConsumptionCard from "../../components/ConsumptionCard";
 import { Device, useDeviceStore } from "../../store/devices";
 import { useRoomCounter } from "../../hooks/useRoomCounter";
 import DeviceList from "../../components/DeviceList";
@@ -57,8 +58,11 @@ function UserDevices() {
             const fetchedDevices = await response.data as Device[]
             addDevices(fetchedDevices)
           }
-          if(isUserLogged) fetchDevices()
-      }, [isEditDeviceOpen, isUserLogged])
+          if(isUserLogged) {
+            console.log("fetching devices")
+            fetchDevices()
+          }
+      }, [isEditDeviceOpen, isUserLogged, addDevices, user.id])
 
     return (
         <div className="overflow-hidden lg:mx-72">

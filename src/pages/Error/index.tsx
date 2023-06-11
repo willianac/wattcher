@@ -5,7 +5,7 @@ import Footer from "../../components/Footer";
 import "./error.css"
 
 function Error() {
-  const error = useRouteError() as any
+  const error = useRouteError() as unknown
 
   return (
     <div className="flex flex-col h-full bg-colorPrimary gap-2">
