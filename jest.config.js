@@ -8,7 +8,8 @@ const config = {
     "js"
   ],
   "moduleNameMapper" : {
-    "\\.(css|less)$": "identity-obj-proxy"
+    "\\.(css|less)$": "identity-obj-proxy",
+    "\\.svg": "<rootDir>/__mocks__/svgTransform.js"
   },
   "testEnvironment" : "jsdom"
 }
