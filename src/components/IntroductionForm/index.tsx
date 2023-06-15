@@ -1,5 +1,4 @@
 import { Form, InputNumber, Button, Select, SelectProps } from "antd";
-import FormItem from "antd/es/form/FormItem";
 import { Device } from "../../store/devices";
 
 type ComponentProps = {
@@ -32,25 +31,31 @@ function IntroForm ({ calc }: ComponentProps) {
                 form={form}
             >
                 <p>Qual a potência dele em watts?</p>
-                <FormItem name="power" rules={[{required : true}]}>
+                <Form.Item name="power" rules={[{required : true}]}>
                     <InputNumber className="w-full"/>
-                </FormItem>
+                </Form.Item>
 
                 <p>Quantas horas por dia você usa?</p>
-                <FormItem name="daily_use" rules={[{required : true}]}>
+                <Form.Item name="daily_use" rules={[{required : true}]}>
                     <Select
                         options={options}
                     />
-                </FormItem>
+                </Form.Item>
 
                 <p>Quantos dias em um mês?</p>
-                <FormItem name="month_use" rules={[{required : true}]}>
+                <Form.Item name="month_use" rules={[{required : true}]}>
                     <InputNumber min={1} max={31} className="w-full"/>
-                </FormItem>
+                </Form.Item>
 
-                <FormItem>
-                    <Button type="primary" htmlType="submit" className="bg-colorPrimary" size="large">Calcular</Button>
-                </FormItem>
+                <Form.Item>
+                    <Button 
+                        type="primary" 
+                        htmlType="submit" 
+                        className="bg-colorPrimary" 
+                        size="large"
+                        >Calcular
+                    </Button>
+                </Form.Item>
             </Form>
         </div>
     )

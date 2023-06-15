@@ -63,7 +63,7 @@ function Login() {
             <h1 className="text-3xl font-semibold px-4 lg:mx-72">Preencha todos os campos</h1>
             <form className="mt-4 px-4 flex flex-col gap-3 lg:mx-72" onSubmit={formik.handleSubmit}>
                 <div>
-                    <p>Email</p>
+                    <label htmlFor="email">Email</label>
                     <Input 
                         type="email" 
                         name="email"
@@ -71,6 +71,7 @@ function Login() {
                         onChange={formik.handleChange} 
                         value={formik.values.email} 
                         onBlur={formik.handleBlur}
+                        data-testid="email"
                     />
                     {formik.touched.email && 
                         formik.errors.email ? 
@@ -78,7 +79,7 @@ function Login() {
                 </div>
 
                 <div>
-                    <p>Senha</p>    
+                    <label htmlFor="password">Senha</label> 
                     <Input 
                         type="password" 
                         name="password" 
@@ -86,6 +87,7 @@ function Login() {
                         onChange={formik.handleChange} 
                         value={formik.values.password} 
                         onBlur={formik.handleBlur}
+                        data-testid="password"
                     />
                     {formik.touched.password && 
                         formik.errors.password ? 
