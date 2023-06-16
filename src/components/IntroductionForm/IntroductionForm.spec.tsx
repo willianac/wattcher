@@ -1,5 +1,5 @@
 import "../../../__mocks__/matchMedia.js";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import IntroForm from ".";
 
@@ -7,18 +7,18 @@ describe("Introduction Form", () => {
   const calculate = jest.fn()
 
   beforeEach(() => {
-    render(<IntroForm calc={calculate} />)
+    render(<IntroForm calc={calculate} />);
   })
 
   afterEach(() => {
     cleanup()
   })
 
-  test("should display 3 inputs to be filled", () => {
-    const inputsNumber = screen.getAllByRole("spinbutton")
-    const inputSelect = screen.getByRole("combobox")
+  test("should have 3 inputs and match snapshot", () => {
+    const inputsNumber = screen.getAllByRole("spinbutton");
+    inputsNumber.push(screen.getByRole("combobox"))
 
-    expect(inputsNumber && inputSelect).toBeTruthy()
+    expect(inputsNumber).toMatchSnapshot()
   })
 
   test("should not call the calculate function, if input is not filled", async () => {
@@ -42,5 +42,4 @@ describe("Introduction Form", () => {
 
     expect(calculate).toBeCalledTimes(1)
   })
-
 })
