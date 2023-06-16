@@ -3,10 +3,25 @@ import userEvent from "@testing-library/user-event";
 import Login from ".";
 import { MemoryRouter } from "react-router-dom";
 
+const mockLoginFunction = jest.fn()
+
+jest.mock("../../hooks/useAuthentication", () => (
+  {
+    useAuthentication : () => (
+      {
+        login : mockLoginFunction
+      }
+    )
+  }
+))
+
 describe("Login Component", () => {
- 
   beforeEach(() => {
     cleanup()
+  })
+
+  afterAll(() => {
+    jest.resetModules()
   })
  
   test("submit button should be disable if email input is no filled properly", async () => {
@@ -47,11 +62,14 @@ describe("Login Component", () => {
       </MemoryRouter>
     )
     const user = userEvent.setup()
-    
+
     await user.type(await screen.findByTestId("email"), "correct@email.com")
     await user.type(await screen.findByTestId("password"), "longPasswordThatPass")
 
     const button = await screen.findByRole("button", {name: /entrar/i}) as HTMLButtonElement
-    expect(button.disabled).toBeFalsy()
+    await user.click(button)
+
+    
+    expect(mockLoginFunction).toBeCalledTimes(1)
   })
 })

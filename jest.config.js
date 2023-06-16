@@ -11,7 +11,8 @@ const config = {
     "\\.(css|less)$": "identity-obj-proxy",
     "\\.svg": "<rootDir>/__mocks__/svgTransform.js"
   },
-  "testEnvironment" : "jsdom"
+  "testEnvironment" : "jsdom",
+  "setupFiles": ["whatwg-fetch"]
 }
 
 export default config;
