@@ -4,6 +4,7 @@ const config = {
   },
   "moduleFileExtensions" : [
     "tsx",
+    "ts",
     "jsx",
     "js"
   ],
@@ -12,7 +13,8 @@ const config = {
     "\\.svg": "<rootDir>/__mocks__/svgTransform.js"
   },
   "testEnvironment" : "jsdom",
-  "setupFiles": ["whatwg-fetch"]
+  "setupFiles": ["whatwg-fetch"],
+  "setupFilesAfterEnv" : ["<rootDir>/setupTests.js"]
 }
 
 export default config;
