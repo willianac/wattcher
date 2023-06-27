@@ -47,6 +47,10 @@ function Login() {
                 setIsLoading(false)
                 return messageApi.error("Erro de servidor")
             }
+            if(response === "unexpected error") {
+                setIsLoading(false)
+                return messageApi.error("Erro inesperado")
+            }
             setIsLoading(false)
             messageApi.success("Autenticado com sucesso!")
             setTimeout(() => {
