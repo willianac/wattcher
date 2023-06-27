@@ -30,6 +30,7 @@ export function useAuthentication() {
       setUserLogged(true)
       setToken(userToken.data)
     } catch (error) {
+      console.log(error)
       if(error instanceof AxiosError) {
         if(error.code === "ERR_NETWORK") return "network_error"
         if(error.response?.status == 401) return "wrong_credentials"
@@ -47,9 +48,11 @@ export function useAuthentication() {
       setToken(userToken.data)
     } catch (error) {
       if(error instanceof AxiosError) {
-        if(error.code == "ERR_NETWORK") return "network_error"
+        if(error.code == AxiosError.ERR_NETWORK) return "network_error"
         if(error.response?.data.message == "user already exists") return "already_exists"
+        return "not"
       }
+      return "unexpected error"
     }
   }
 
