@@ -30,19 +30,19 @@ function IntroForm ({ calc }: ComponentProps) {
                 autoComplete="off"
                 form={form}
             >
-                <p>Qual a potência dele em watts?</p>
+                <label htmlFor="power">Qual a potência dele em watts?</label>
                 <Form.Item name="power" rules={[{required : true}]}>
                     <InputNumber className="w-full"/>
                 </Form.Item>
 
-                <p>Quantas horas por dia você usa?</p>
+                <label htmlFor="daily_use">Quantas horas por dia você usa?</label>
                 <Form.Item name="daily_use" rules={[{required : true}]}>
                     <Select
                         options={options}
                     />
                 </Form.Item>
 
-                <p>Quantos dias em um mês?</p>
+                <label htmlFor="month_use">Quantos dias em um mês?</label>
                 <Form.Item name="month_use" rules={[{required : true}]}>
                     <InputNumber min={1} max={31} className="w-full"/>
                 </Form.Item>
