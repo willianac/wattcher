@@ -51,6 +51,10 @@ function Register() {
                 setIsLoading(false)
                 return messageApi.error("Erro de servidor")
             }
+            if(response == "unexpected error") {
+                setIsLoading(false)
+                return messageApi.error("Erro inesperado")
+            }
             setIsLoading(false)
             messageApi.success("Registrado com sucesso!")
             setTimeout(() => {
