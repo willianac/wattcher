@@ -9,14 +9,18 @@ jest.mock("axios")
 jest.mock("jwt-decode")
 const mockedAxios = axios as jest.Mocked<typeof axios>
 const mockedJwtDecode = jwtDecode as jest.Mocked<typeof jwtDecode>
+const URL = process.env.VITE_API_URL
 
 describe("#useAuthentication.register", () => {
   beforeEach(() => {
     cleanup()
   })
 
+  afterAll(() => {
+    jest.clearAllMocks()
+  })
+
   test("should call axios.post with correct parameters", async () => {
-    const URL = process.env.VITE_API_URL
     const parameters = {
       name : "Willian",
       email : "willianac@live.com",
@@ -83,6 +87,84 @@ describe("#useAuthentication.register", () => {
 
     await waitFor(() => {
       expect(registerReturn).toBe("network_error")
+    })
+  })
+})
+
+
+describe("#useAuthentication.login", () => {
+  beforeEach(() => {
+    cleanup()
+  })
+
+  test("should call axios.post with correct parameters", async () => {
+    const { result } = renderHook(() => {
+      return useAuthentication()
+    })
+
+    const loginParameters = {
+      email : "dummyEmail",
+      password : "dummyPass"
+    }
+
+    await result.current.login(loginParameters)
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(URL + "/getuser", loginParameters)
+  })
+
+  test("after the request, should save user info on zustand store", async () => {
+    const saveUserSpy = jest.spyOn(useUserStore.getState(), "saveUser")
+    const setUserLogged = jest.spyOn(useUserStore.getState(), "setUserLogged")
+
+    const { result } = renderHook(() => {
+      return useAuthentication()
+    })
+
+    const loginParameters = {
+      email : "dummyEmail",
+      password : "dummyPass"
+    }
+
+    const mockUserToken = "mockedToken"
+    const mockUserResponse = {
+      id : "hugeidgeneratedbyaexternallib",
+      name : "dummyUser",
+      local_kwh : 1.14,
+      taxes : 17.10
+    }
+
+    mockedAxios.post.mockResolvedValueOnce(mockUserToken)
+    mockedJwtDecode.mockReturnValueOnce(mockUserResponse)
+
+    act(() => {
+      result.current.login(loginParameters)
+    })
+
+    await waitFor(() => {
+      expect(saveUserSpy).toHaveBeenCalledWith(mockUserResponse)
+      expect(setUserLogged).toHaveBeenCalledWith(true)
+    })
+  })
+
+  test("should return network error, in case the server is offline", async () => {
+    const { result } = renderHook(() => {
+      return useAuthentication()
+    })
+
+    const mockAxiosError = new AxiosError();
+    mockAxiosError.code = AxiosError.ERR_NETWORK
+
+    mockedAxios.mockRejectedValueOnce(mockAxiosError)
+
+    const loginParameters = {
+      email : "dummyEmail",
+      password : "dummyPass"
+    }
+
+    const errorMessage = await result.current.login(loginParameters)
+
+    await waitFor(() => {
+      expect(errorMessage).toBe("network_error")
     })
   })
 })
