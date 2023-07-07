@@ -1,4 +1,4 @@
-import { Form, InputNumber, Slider, Select, Button, AutoComplete, message } from "antd"
+import { Form, InputNumber, Slider, Select, Button, AutoComplete } from "antd"
 import { NoticeType } from "antd/es/message/interface"
 import { useState } from "react"
 import { Device } from "../../store/devices"
@@ -19,7 +19,6 @@ function DeviceForm({ saveDevice, throwToast }: DeviceFormActions) {
     const [options, setOptions] = useState(OPTIONS.autocompleteOptions)
     const [amountInput, setAmountInput] = useState(false)
     const [form] = Form.useForm()
-    const [messageApi, contextHolder] = message.useMessage()
 
     const handleAutocompleteChange = (text: string) => {
         handleAmountInput(text)
@@ -36,7 +35,7 @@ function DeviceForm({ saveDevice, throwToast }: DeviceFormActions) {
 
     const handleSubmit = (device: Device) => {
         if(!isUserLogged) {
-            return messageApi.error("Requer login")
+            return throwToast("error", "Requer Login")
         }
         saveDevice(device)
         form.resetFields()
@@ -89,7 +88,6 @@ function DeviceForm({ saveDevice, throwToast }: DeviceFormActions) {
                 </Form.Item>
 
             </Form>
-            {contextHolder}
         </>
     )
 }
