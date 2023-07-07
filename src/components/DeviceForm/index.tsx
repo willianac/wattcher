@@ -85,7 +85,7 @@ function DeviceForm({ saveDevice, throwToast }: DeviceFormActions) {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button htmlType="submit" type="primary" size="large" className="bg-colorPrimary w-full">Adicionar</Button>
+                    <Button htmlType="submit" type="primary" size="large" className="bg-colorPrimary w-full" data-testid="submit-btn">Adicionar</Button>
                 </Form.Item>
 
             </Form>
