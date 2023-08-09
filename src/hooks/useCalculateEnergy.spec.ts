@@ -1,4 +1,4 @@
-import { render, renderHook } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { useCalculateEnergy, useCalculateRoomEnergy } from "./useCalculateEnergy";
 import { Device, RoomEnum } from "../store/devices";
 

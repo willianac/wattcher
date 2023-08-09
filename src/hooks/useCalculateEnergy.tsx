@@ -6,7 +6,7 @@ export function useCalculateEnergy(values: Device) {
     if(values.amount) {
         energySpentMonthlyInKWH = energySpentMonthlyInKWH * values.amount
     }
-    return energySpentMonthlyInKWH
+    return energySpentMonthlyInKWH.toFixed(2)
 }
 
 export function useCalculateRoomEnergy(devices: Device[]) {
