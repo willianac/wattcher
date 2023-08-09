@@ -1,12 +1,12 @@
 import { Device } from "../store/devices"
 
 export function useCalculateEnergy(values: Device) {
-    const energySpentOneDay = values.power * (values.daily_use / 24)
-    let energySpentMonthlyInKWH = (energySpentOneDay * values.month_use) / 1000
+    const energyConsumption = (values.power / 1000) * values.daily_use
+    let energySpentMonthlyInKWH = energyConsumption * values.month_use
     if(values.amount) {
         energySpentMonthlyInKWH = energySpentMonthlyInKWH * values.amount
     }
-    return energySpentMonthlyInKWH.toFixed(2)
+    return energySpentMonthlyInKWH
 }
 
 export function useCalculateRoomEnergy(devices: Device[]) {
